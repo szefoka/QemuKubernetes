@@ -1,4 +1,4 @@
-nodes=(hp074.utah.cloudlab.us-10.0.0.1 hp056.utah.cloudlab.us-10.0.0.2 hp076.utah.cloudlab.us-10.0.0.3 hp067.utah.cloudlab.us-10.0.0.4)
+nodes=(hp186.utah.cloudlab.us-10.0.0.1 hp196.utah.cloudlab.us-10.0.0.2 hp197.utah.cloudlab.us-10.0.0.3 hp169.utah.cloudlab.us-10.0.0.4)
 
 cat /dev/zero | ssh-keygen -q -N "" -f vmkey
 

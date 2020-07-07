@@ -1,10 +1,17 @@
 IP=$2
 
+echo Hello
+
 sudo virsh destroy $1
 sudo virsh undefine $1
+sudo chmod 777 /mnt
+cd /mnt
 
-sudo wget https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
-sudo mv xenial-server-cloudimg-amd64-disk1.img ubuntu-16.04.qcow2
+if [ ! -f ubuntu-16.04.qcow2 ]; then
+    sudo wget https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+    sudo mv xenial-server-cloudimg-amd64-disk1.img ubuntu-16.04.qcow2
+fi
+
 sudo qemu-img create -f qcow2 -o backing_file=ubuntu-16.04.qcow2 $1.qcow2
 sudo qemu-img resize $1.qcow2 50G
 
@@ -12,7 +19,7 @@ sudo cat >meta-data <<EOF
 local-hostname: $1
 EOF
 
-export PUB_KEY=$(cat .ssh/vmkey.pub)
+export PUB_KEY=$(cat /users/szefoka/.ssh/vmkey.pub)
 
 sudo cat >user-data <<EOF
 #cloud-config

@@ -12,12 +12,12 @@ then
 	sudo apt-get install -y docker-ce
 fi
 
-sudo ./docker_registry_setup.sh host
+#sudo ./docker_registry_setup.sh host
 
 WORKER_VMS=(10.0.0.11 10.0.0.12 10.0.0.13 10.0.0.14 10.0.0.15 10.0.0.16 10.0.0.17)
 
-ssh -i /users/szefoka/.ssh/vmkey -o "StrictHostKeyChecking no" ubuntu@10.0.0.10 "bash -s" < ./kube_install.sh
-ssh -i /users/szefoka/.ssh/vmkey -o "StrictHostKeyChecking no" ubuntu@10.0.0.10 "bash -s" < ./docker_registry_setup.sh
+ssh -i /users/szefoka/.ssh/vmkey -o "StrictHostKeyChecking no" ubuntu@10.0.0.10 "bash -s" < ./kube_install.sh	
+ssh -i /users/szefoka/.ssh/vmkey -o "StrictHostKeyChecking no" ubuntu@10.0.0.10 "bash -s" < ./docker_registry_setup.sh master
 
 sleep 10
 TOKEN=$(ssh -i /users/szefoka/.ssh/vmkey -o "StrictHostKeyChecking no" ubuntu@10.0.0.10 sudo kubeadm token list | tail -n 1 | cut -d ' ' -f 1)
