@@ -4,7 +4,7 @@ echo Hello
 
 sudo virsh destroy $1
 sudo virsh undefine $1
-sudo chmod 777 /mnt
+
 cd /mnt
 
 if [ ! -f ubuntu-16.04.qcow2 ]; then
