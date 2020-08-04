@@ -1,4 +1,4 @@
-nodes=(hp145.utah.cloudlab.us-10.0.0.1 hp142.utah.cloudlab.us-10.0.0.2 hp127.utah.cloudlab.us-10.0.0.3 hp159.utah.cloudlab.us-10.0.0.4)
+nodes=(hp190.utah.cloudlab.us-10.0.0.1 hp161.utah.cloudlab.us-10.0.0.2 hp181.utah.cloudlab.us-10.0.0.3 hp186.utah.cloudlab.us-10.0.0.4)
 
 cat /dev/zero | ssh-keygen -q -N "" -f vmkey
 
@@ -9,6 +9,7 @@ do
   scp -i ~/.ssh/cloudlab -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vmkey* szefoka@$NODE:.ssh/
   ssh szefoka@$NODE -i ~/.ssh/cloudlab -o "StrictHostKeyChecking no" "bash -s" < ./set_storage.sh
   ssh szefoka@$NODE -i ~/.ssh/cloudlab -o "StrictHostKeyChecking no" "bash -s" < ./install_vms.sh $INTERNAL_IP
+  #ssh szefoka@$NODE -i ~/.ssh/cloudlab -o "StrictHostKeyChecking no" "bash -s" < ./get_vm_image.sh $INTERNAL_IP
 done
 
 INTERNAL_NODE_ID="0"

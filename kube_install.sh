@@ -37,6 +37,7 @@ if [ -z "$CLIENT" ]
 then
 	sudo sed -i '${s/$/ --node-ip 10.0.0.10/}' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 	sudo systemctl daemon-reload && sudo systemctl restart kubelet
+	sleep 5
 	sudo kubeadm init --ignore-preflight-errors=SystemVerification --pod-network-cidr 10.32.0.0/16 --apiserver-advertise-address 10.0.0.10 
 	mkdir -p $HOME/.kube
 	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -46,10 +47,12 @@ then
 
 elif [ "$CLIENT" = "true" ]
 then
-	NODE_IP=$(ifconfig ens3 | grep "inet addr" | cut -d : -f 2 | cut -d " " -f 1)
+	NODE_IP=$(ip a show dev ens3 | grep inet | grep -v inet6 | awk '{print $2}' | cut -d "/" -f 1)
 	sudo sed -i '${s/$/ --node-ip '"$NODE_IP"'/}' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 	sudo systemctl daemon-reload && sudo systemctl restart kubelet
+	sleep 5
 	sudo kubeadm join $IP --token $TOKEN --discovery-token-ca-cert-hash $HASH --ignore-preflight-errors=SystemVerification
+
 	echo "Client joined to Master"
 else
 	echo "Invalid argument"
